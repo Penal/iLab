@@ -5,6 +5,13 @@
 #include <math.h>
 #include "problems.h"
 
+/**
+* \brief This is the my homework program on the 03 October of 2014.
+*
+* Here're 10 solven problems from MIPT test of 2007 year.
+* @param There're no parameters
+* @return Returns 0 if there's no critical errors.
+*/
 int main()
 {
     int number_of_problem = WRONG_INT;
@@ -14,11 +21,11 @@ int main()
         "2. Finding of n-th simple number(2C)\n"
         "3. Finding a sum of all dividers(5B)\n"
         "4. Symbol filtering(4B)\n"
-        "5. Reversing words(4C)\n" //Hadn't finished
+        "5. Reversing words(4C)\n"
         "6. Sorting a students(5C)\n"
-        "7. Finding numbers freed from squares(6C)\n" //Hadn't finished
-        "8. Finding number of expansion(6D)\n" //Hadn't finished
-        "9. Finding full squares(8B)\n" //Wrong work
+        "7. Finding numbers freed from squares(6C)\n"
+        "8. The most farest points(7B)\n" //
+        "9. Finding full squares(8B)\n"
         "10. Table of powers(10A)\n");
     scanf("%d", &number_of_problem);
     switch (number_of_problem)
@@ -36,13 +43,16 @@ int main()
             symbol_filter();
         break;
         case WORDS_REVERSING:
+            words_reversing();
         break;
         case SORTING_OF_STUDENTS:
             sorting_of_students();
         break;
         case FREED_FROM_SQUARES:
+            freed_from_squares();
         break;
-        case NUMBER_OF_EXPANSION:
+        case THE_MOST_FARED_POINTS:
+            the_most_fared_points();
         break;
         case FULL_SQUARES:
             full_squares();
@@ -51,11 +61,66 @@ int main()
             table_of_powers();
         break;
         default:
+            printf("Wrong input, sorry!\n");
         break;
     }
     return 0;
 }
 
+/**
+* \brief Function prints some numbers that freed from squares
+*
+* This function takes from standart input number of numbers that will be checked and
+* then these numbers too.
+* @param There're no parameters.
+* @return Always returns 0, if there's no critical errors.
+*/
+int freed_from_squares()
+{
+    int number_of_input_numbers = WRONG_INT;
+    scanf ("%i", &number_of_input_numbers);
+    long* input_numbers = calloc (number_of_input_numbers, sizeof(*input_numbers));
+    assert(input_numbers);
+    for (int i = 0; i < number_of_input_numbers; i++)
+    {
+        scanf("%li", &input_numbers[i]);
+    }
+
+    for (int i = 0; i < number_of_input_numbers; i++)
+    {
+        int this_is_freed_from_squares = TRUE;
+        for (long j = 2; j <= input_numbers[i]/2 + 1; j++)
+        {
+            if (j == input_numbers[i]/2 + 1)
+            {
+                j = input_numbers[i];
+            }
+
+            if (input_numbers[i] % j == 0 && is_square(j))
+            {
+                this_is_freed_from_squares = FALSE;
+                break;
+            }
+        }
+        if (this_is_freed_from_squares)
+        {
+            printf("%li ", input_numbers[i]);
+        }
+    }
+    free(input_numbers);
+    printf("\n");
+    return 0;
+}
+
+/**
+* \brief Transponates the matrix
+*
+* This function transonates the matrix. Functions gets it from standart input (size of square
+* matrix at first and the matrix itself then). After it function prints in standart output
+* transponated matrix
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int transponate_matrix ()
 {
     int size = WRONG_INT;
@@ -97,10 +162,23 @@ int transponate_matrix ()
         }
         printf("\n");
     }
+
+    for (int i = 0; i < size; i++)
+    {
+        free(matrix[i]);
+    }
     free(matrix);
     return 0;
 }
 
+/**
+* \brief This function prints n-th simple number
+*
+* This functions gets an natural number (n) and then prints n-th simple number in a
+* standart output.
+* @param There're no parameters.
+* @return Returns 0, if there're no critical errors.
+*/
 int nth_simple_number()
 {
     int n = WRONG_INT;
@@ -120,16 +198,16 @@ int nth_simple_number()
     {
         for (int j = array_of_simple_numbers[i]+1;;j++)
         {
-            int simplisity = SIMPLE;
+            int is_simple = TRUE;
             for (int k = 0; k <= i; k++)
             {
                 if (j % array_of_simple_numbers[k] == 0)
                 {
-                    simplisity = NOT_SIMPLE;
+                    is_simple = FALSE;
                     break;
                 }
             }
-            if (simplisity)
+            if (is_simple)
             {
                 array_of_simple_numbers[i+1] = j;
                 break;
@@ -141,9 +219,21 @@ int nth_simple_number()
     return 0;
 }
 
+/**
+* \brief This function filters all string that it gets.
+*
+* This function gets from standart input string until it gets EOF symbol. Also it prints
+* this strings changed by this rules:
+* 1) All digits will be changed to #
+* 2) There won't be more than one space between two words
+* 3) All big letters get smaller
+* 4) All punctuation signs won't be erased
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int symbol_filter()
 {
-    char input_symbol;
+    char input_symbol = WRONG_CHAR;
     int previous_is_space = FALSE;
     while ( (input_symbol = getchar()) != EOF)
     {
@@ -160,7 +250,7 @@ int symbol_filter()
             }
             previous_is_space = TRUE;
         }
-        else if (input_symbol >= 'A' && input_symbol <= 'Z')
+        else if (BEGIN <= input_symbol && input_symbol <= END)
         {
             putchar(input_symbol+SPACE_BETWEEN_a_AND_A);
             previous_is_space = FALSE;
@@ -179,31 +269,36 @@ int symbol_filter()
     return 0;
 }
 
-
+/**
+* \brief This function prints reversed string
+*
+* This function gets from standart input some string (ended with '\n') and prints this string
+* reversed.
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int words_reversing()
 {
     char* output_string = calloc(MAX_STRING, sizeof(*output_string));
-    char* begin_adress = output_string;
-    char input_symbol;
     assert (output_string);
-    while ( (input_symbol = getchar()) && (input_symbol != '\n'))
+    getchar();
+    scanf("%[^\n]s", output_string);
+    for (int i = strlen(output_string) - 1; i >= 0; i--)
     {
-        *output_string = input_symbol;
-        output_string++;
+        putchar(output_string[i]);
     }
-    output_string = begin_adress;
-    free(begin_adress);
-    for (int i = 0, j = strlen(output_string); i < strlen(output_string)/2; i++, j--)
-    {
-        char temp = output_string[i];
-        output_string[i] = output_string[j];
-        output_string[j] = temp;
-    }
-    printf("%s", output_string);
     free(output_string);
     return 0;
 }
 
+/**
+* \brief This function gets list of students and sorts it by marks and by names.
+*
+* This function gets number of students from standats output at first, then gets all students
+* and their marks and than prints two sortes lists: by marks and by students' names.
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int sorting_of_students()
 {
     int n = WRONG_INT;
@@ -225,7 +320,7 @@ int sorting_of_students()
             if ( strcmp(students_list[i], students_list[j]) > 0)
             {
                 char* temp_string = calloc (MAX_STUDENT_NAME, sizeof(*temp_string));
-                int temp_int;
+                int temp_int = WRONG_INT;
                 assert(temp_string);
                 strcpy(temp_string,students_list[i]);
                 temp_int = students_marks[i];
@@ -250,7 +345,7 @@ int sorting_of_students()
             if ( students_marks[i] < students_marks[j])
             {
                 char* temp_string = calloc (MAX_STUDENT_NAME, sizeof(*temp_string));
-                int temp_int;
+                int temp_int = WRONG_INT;
                 assert(temp_string);
                 strcpy(temp_string,students_list[i]);
                 temp_int = students_marks[i];
@@ -272,6 +367,14 @@ int sorting_of_students()
     return 0;
 }
 
+/**
+* \brief This function prints sum of all dividers of a number.
+*
+* This function gets a number from a standart input and then prints a sum of all its
+* dividers.
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int sum_of_all_dividers()
 {
     long n;
@@ -288,9 +391,19 @@ int sum_of_all_dividers()
     return 0;
 }
 
+/**
+* \brief This function prints table of powers
+*
+* This function gets a number (n) from a standart input and then prints table of the
+* remainders from dividing a^k by n.
+* a is in [1, n-1]
+* k is in [0, n-1]
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int table_of_powers()
 {
-    int n;
+    int n = WRONG_INT;
     scanf ("%i", &n);
     for (int k = 0; k < n; k++)
     {
@@ -303,25 +416,46 @@ int table_of_powers()
     return 0;
 }
 
+/**
+* \brief This is auxillary function to full_squares()
+*
+* This function let you know if your number if full square or not.
+* @param number is the cheked number
+* @return Returns TRUE ( = 1) or FALSE ( = 0)
+* @see full_squares()
+*/
 int is_square(long number)
 {
-    if (sqrt(number) - (long) number == 0)
+    if (sqrt(number) - (long) sqrt(number) == 0)
     {
         return TRUE;
     }
     return FALSE;
 }
 
+/**
+* \brief This function prints only full square numbers
+*
+* This function gets a number of chekable numbers and then prints some of them that are
+* not full suqares
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
 int full_squares()
 {
     int n;
     scanf ("%i", &n);
-    long* output = calloc(n, sizeof(*output));
+    long* const output = calloc(n, sizeof(*output));
     assert(output);
+    for (int i = 0; i < n; i++)
+    {
+        output[i] = WRONG_INT;
+    }
+
     int counter = 0;
     for (int i = 0; i < n; i++)
     {
-        long number;
+        long number = WRONG_INT;
         scanf ("%li", &number);
         if (is_square(number))
         {
@@ -329,11 +463,75 @@ int full_squares()
             counter++;
         }
     }
-    for (int i = 0; i <= counter; i++)
+
+    for (int i = 0; i < counter; i++)
     {
-        printf("%li ", output[counter]);
+        printf("%li ", output[i]);
     }
     free(output);
     printf("\n");
     return 0;
+}
+
+/**
+* \brief This function prints the most fared points from list
+*
+* This function gets the number of points and then these points and
+* prints what points are the most fared and how far they are.
+* @param There're no parameters
+* @return Returns 0, if there're no critical errors.
+*/
+int the_most_fared_points()
+{
+    int number_of_points = WRONG_INT;
+    scanf("%i", &number_of_points);
+    double** points = calloc(number_of_points, sizeof(*points) );
+    assert(points);
+    for (int i = 0; i < number_of_points; i++)
+    {
+        points[i] = calloc(COORDINATES_NUMBER, sizeof(**points) );
+        assert(points[i]);
+        scanf ("%lg %lg", &points[i][X], &points[i][Y]);
+    }
+
+    double maximal_distance = WRONG_INT;
+    long two_numbers_of_the_farest_points[2] = {WRONG_INT, WRONG_INT};
+
+    for (int i = 0; i < number_of_points; i++)
+    {
+        for (int j = i; j < number_of_points; j++)
+        {
+            if (maximal_distance < distance_between_two_points(points[i], points[j]) )
+            {
+                maximal_distance = distance_between_two_points(points[i], points[j]);
+                two_numbers_of_the_farest_points[0] = i;
+                two_numbers_of_the_farest_points[1] = j;
+            }
+        }
+    }
+
+    printf("%li %li\n", two_numbers_of_the_farest_points[0] + 1,
+        two_numbers_of_the_farest_points[1] + 1);
+    printf("%lg\n", maximal_distance);
+
+    for (int i = 0; i < number_of_points; i++)
+    {
+        free(points[i]);
+    }
+    free(points);
+    return 0;
+}
+
+/**
+* \brief This is auxillary function to the_most_fared_points()
+*
+* This function returns the distance between two points
+* @param double* first_point is a first point
+* @param double* second_point is a second point
+* @return double number that is the distance between first_point and second_point
+* @see the_most_fared_points()
+*/
+double distance_between_two_points(double* first_point, double* second_point)
+{
+    return sqrt( pow(first_point[X] - second_point[X], 2) + pow(first_point[Y] - second_point[Y], 2) );
 }
