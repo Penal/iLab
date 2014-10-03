@@ -3,6 +3,7 @@
 #include <assert.h>
 #include <string.h>
 #include <math.h>
+#include <ctype.h>
 #include "problems.h"
 
 /**
@@ -27,42 +28,22 @@ int main()
         "8. The most farest points(7B)\n" //
         "9. Finding full squares(8B)\n"
         "10. Table of powers(10A)\n");
+
+
     scanf("%d", &number_of_problem);
     switch (number_of_problem)
     {
-        case TRANSPONATE_MATRIX:
-            transponate_matrix();
-        break;
-        case Nth_SIMPLE_NUMBER:
-            nth_simple_number();
-        break;
-        case SUM_OF_ALL_DIVIDERS:
-            sum_of_all_dividers();
-        break;
-        case SYMBOL_FILTER:
-            symbol_filter();
-        break;
-        case WORDS_REVERSING:
-            words_reversing();
-        break;
-        case SORTING_OF_STUDENTS:
-            sorting_of_students();
-        break;
-        case FREED_FROM_SQUARES:
-            freed_from_squares();
-        break;
-        case THE_MOST_FARED_POINTS:
-            the_most_fared_points();
-        break;
-        case FULL_SQUARES:
-            full_squares();
-        break;
-        case TABLE_OF_POWERS:
-            table_of_powers();
-        break;
-        default:
-            printf("Wrong input, sorry!\n");
-        break;
+        case TRANSPONATE_MATRIX:    transponate_matrix();   break;
+        case Nth_SIMPLE_NUMBER:     nth_simple_number();    break;
+        case SUM_OF_ALL_DIVIDERS:   sum_of_all_dividers();    break;
+        case SYMBOL_FILTER:         symbol_filter();    break;
+        case WORDS_REVERSING:   words_reversing();  break;
+        case SORTING_OF_STUDENTS:   sorting_of_students();  break;
+        case FREED_FROM_SQUARES:    freed_from_squares();   break;
+        case THE_MOST_FARTHEST_POINTS: the_most_farthest_points();    break;
+        case FULL_SQUARES:  full_squares();     break;
+        case TABLE_OF_POWERS:     table_of_powers();    break;
+        default:    printf("Wrong input, sorry!\n");    break;
     }
     return 0;
 }
@@ -86,6 +67,7 @@ int freed_from_squares()
         scanf("%li", &input_numbers[i]);
     }
 
+
     for (int i = 0; i < number_of_input_numbers; i++)
     {
         int this_is_freed_from_squares = TRUE;
@@ -107,8 +89,10 @@ int freed_from_squares()
             printf("%li ", input_numbers[i]);
         }
     }
-    free(input_numbers);
     printf("\n");
+
+    free(input_numbers);
+    input_numbers = 0;
     return 0;
 }
 
@@ -144,6 +128,7 @@ int transponate_matrix ()
         }
     }
 
+
     for (int i = 0; i < size; i++)
     {
         for (int j = i + 1; j < size; j++)
@@ -154,6 +139,7 @@ int transponate_matrix ()
         }
     }
 
+
     for (int i = 0; i < size; i++)
     {
         for (int j = 0; j < size; j++)
@@ -163,11 +149,14 @@ int transponate_matrix ()
         printf("\n");
     }
 
+
     for (int i = 0; i < size; i++)
     {
         free(matrix[i]);
+        matrix[i] = 0;
     }
     free(matrix);
+    matrix = 0;
     return 0;
 }
 
@@ -187,6 +176,8 @@ int nth_simple_number()
     {
         return WRONG_INT;
     }
+
+
     int* array_of_simple_numbers = calloc (n, sizeof(*array_of_simple_numbers));
     assert (array_of_simple_numbers);
     array_of_simple_numbers[0] = 2;
@@ -194,6 +185,8 @@ int nth_simple_number()
     {
         array_of_simple_numbers[i] = 0;
     }
+
+
     for (int i = 0; i < n; i++)
     {
         for (int j = array_of_simple_numbers[i]+1;;j++)
@@ -214,8 +207,13 @@ int nth_simple_number()
             }
         }
     }
+
+
     printf("%d\n", array_of_simple_numbers[n-1]);
+
+
     free(array_of_simple_numbers);
+    array_of_simple_numbers = 0;
     return 0;
 }
 
@@ -235,6 +233,8 @@ int symbol_filter()
 {
     char input_symbol = WRONG_CHAR;
     int previous_is_space = FALSE;
+
+
     while ( (input_symbol = getchar()) != EOF)
     {
         if (input_symbol == '.' || input_symbol == ',' || input_symbol == '!'
@@ -250,7 +250,7 @@ int symbol_filter()
             }
             previous_is_space = TRUE;
         }
-        else if (BEGIN <= input_symbol && input_symbol <= END)
+        else if ( isupper(input_symbol) ) //(BEGIN <= input_symbol && input_symbol <= END)
         {
             putchar(input_symbol+SPACE_BETWEEN_a_AND_A);
             previous_is_space = FALSE;
@@ -283,11 +283,16 @@ int words_reversing()
     assert (output_string);
     getchar();
     scanf("%[^\n]s", output_string);
+
+
     for (int i = strlen(output_string) - 1; i >= 0; i--)
     {
         putchar(output_string[i]);
     }
+
+
     free(output_string);
+    output_string = 0;
     return 0;
 }
 
@@ -303,38 +308,38 @@ int sorting_of_students()
 {
     int n = WRONG_INT;
     scanf("%d", &n);
-    char** students_list = calloc (n, sizeof(*students_list));
+    //char** students_list = calloc (n, sizeof(*students_list));
+    struct Student* students_list = calloc(n, sizeof(*students_list) );
     assert(students_list);
-    int* students_marks = calloc (n, sizeof(*students_marks));
-    assert(students_marks);
     for (int i = 0; i < n; i++)
     {
-        students_list[i] = calloc(MAX_STUDENT_NAME, sizeof(**students_list));
-        scanf ("%s %d", students_list[i], &students_marks[i]);
+        students_list[i].name = calloc (MAX_STUDENT_NAME, sizeof(*(students_list[i].name)));
+        scanf ("%s %d", students_list[i].name, &(students_list[i].mark));
     }
+
 
     for (int i = 0; i < n; i++)
     {
         for (int j = i; j < n; j++)
         {
-            if ( strcmp(students_list[i], students_list[j]) > 0)
+            if ( strcmp(students_list[i].name, students_list[j].name) > 0)
             {
-                char* temp_string = calloc (MAX_STUDENT_NAME, sizeof(*temp_string));
-                int temp_int = WRONG_INT;
-                assert(temp_string);
-                strcpy(temp_string,students_list[i]);
-                temp_int = students_marks[i];
-                strcpy(students_list[i],students_list[j]);
-                students_marks[i] = students_marks[j];
-                strcpy(students_list[j],temp_string);
-                students_marks[j] = temp_int;
-                free(temp_string);
+                char* temp_pointer = students_list[i].name;
+                students_list[i].name = students_list[j].name;
+                students_list[j].name = temp_pointer;
+                temp_pointer = 0;
+
+                int temp_int = students_list[i].mark;
+                students_list[i].mark = students_list[j].mark;
+                students_list[j].mark = temp_int;
             }
         }
     }
+
+
     for (int i = 0; i < n; i++)
     {
-        printf("%s %d\n", students_list[i], students_marks[i]);
+        printf("%s %d\n", students_list[i].name, students_list[i].mark);
     }
     printf("\n");
 
@@ -342,28 +347,28 @@ int sorting_of_students()
     {
         for (int j = i; j < n; j++)
         {
-            if ( students_marks[i] < students_marks[j])
+            if ( students_list[i].mark < students_list[j].mark)
             {
-                char* temp_string = calloc (MAX_STUDENT_NAME, sizeof(*temp_string));
-                int temp_int = WRONG_INT;
-                assert(temp_string);
-                strcpy(temp_string,students_list[i]);
-                temp_int = students_marks[i];
-                strcpy(students_list[i],students_list[j]);
-                students_marks[i] = students_marks[j];
-                strcpy(students_list[j],temp_string);
-                students_marks[j] = temp_int;
-                free(temp_string);
+                char* temp_pointer = students_list[i].name;
+                students_list[i].name = students_list[j].name;
+                students_list[j].name = temp_pointer;
+                temp_pointer = 0;
+
+                int temp_int = students_list[i].mark;
+                students_list[i].mark = students_list[j].mark;
+                students_list[j].mark = temp_int;
             }
         }
     }
+
+
     for (int i = 0; i < n; i++)
     {
-        printf("%s %d\n", students_list[i], students_marks[i]);
+        printf("%s %d\n", students_list[i].name, students_list[i].mark);
     }
 
     free(students_list);
-    free(students_marks);
+    students_list = 0;
     return 0;
 }
 
@@ -377,16 +382,20 @@ int sorting_of_students()
 */
 int sum_of_all_dividers()
 {
-    long n;
+    long n = WRONG_INT;
     scanf ("%li", &n);
     double sum = 0;
+
+
     for (long i = 1; i < n; i++)
     {
         if (n%i==0)
         {
-            sum += (double) i;
+            sum += i;
         }
     }
+
+
     printf("%lg", sum);
     return 0;
 }
@@ -405,6 +414,8 @@ int table_of_powers()
 {
     int n = WRONG_INT;
     scanf ("%i", &n);
+
+
     for (int k = 0; k < n; k++)
     {
         for (int a = 1; a < n; a++)
@@ -443,14 +454,15 @@ int is_square(long number)
 */
 int full_squares()
 {
-    int n;
+    int n = WRONG_INT;
     scanf ("%i", &n);
-    long* const output = calloc(n, sizeof(*output));
+    long* output = calloc(n, sizeof(*output));
     assert(output);
     for (int i = 0; i < n; i++)
     {
         output[i] = WRONG_INT;
     }
+
 
     int counter = 0;
     for (int i = 0; i < n; i++)
@@ -464,11 +476,15 @@ int full_squares()
         }
     }
 
+
     for (int i = 0; i < counter; i++)
     {
         printf("%li ", output[i]);
     }
+
+
     free(output);
+    output = 0;
     printf("\n");
     return 0;
 }
@@ -481,57 +497,42 @@ int full_squares()
 * @param There're no parameters
 * @return Returns 0, if there're no critical errors.
 */
-int the_most_fared_points()
+int the_most_farthest_points()
 {
     int number_of_points = WRONG_INT;
     scanf("%i", &number_of_points);
-    double** points = calloc(number_of_points, sizeof(*points) );
+    struct Point* points = calloc (number_of_points, sizeof (*points) );
     assert(points);
     for (int i = 0; i < number_of_points; i++)
     {
-        points[i] = calloc(COORDINATES_NUMBER, sizeof(**points) );
-        assert(points[i]);
-        scanf ("%lg %lg", &points[i][X], &points[i][Y]);
+        scanf ("%lg %lg", &(points[i].x), &(points[i].y) );
     }
+
 
     double maximal_distance = WRONG_INT;
     long two_numbers_of_the_farest_points[2] = {WRONG_INT, WRONG_INT};
+
 
     for (int i = 0; i < number_of_points; i++)
     {
         for (int j = i; j < number_of_points; j++)
         {
-            if (maximal_distance < distance_between_two_points(points[i], points[j]) )
+            if (maximal_distance < hypot(points[i].x - points[j].x, points[i].y - points[j].y) )
             {
-                maximal_distance = distance_between_two_points(points[i], points[j]);
+                maximal_distance = hypot(points[i].x - points[j].x, points[i].y - points[j].y);
                 two_numbers_of_the_farest_points[0] = i;
                 two_numbers_of_the_farest_points[1] = j;
             }
         }
     }
 
+
     printf("%li %li\n", two_numbers_of_the_farest_points[0] + 1,
         two_numbers_of_the_farest_points[1] + 1);
     printf("%lg\n", maximal_distance);
 
-    for (int i = 0; i < number_of_points; i++)
-    {
-        free(points[i]);
-    }
-    free(points);
-    return 0;
-}
 
-/**
-* \brief This is auxillary function to the_most_fared_points()
-*
-* This function returns the distance between two points
-* @param double* first_point is a first point
-* @param double* second_point is a second point
-* @return double number that is the distance between first_point and second_point
-* @see the_most_fared_points()
-*/
-double distance_between_two_points(double* first_point, double* second_point)
-{
-    return sqrt( pow(first_point[X] - second_point[X], 2) + pow(first_point[Y] - second_point[Y], 2) );
+    free(points);
+    points = 0;
+    return 0;
 }

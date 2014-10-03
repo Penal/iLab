@@ -1,11 +1,7 @@
-enum {TRANSPONATE_MATRIX = 1, Nth_SIMPLE_NUMBER, SUM_OF_ALL_DIVIDERS,
-    SYMBOL_FILTER, WORDS_REVERSING, SORTING_OF_STUDENTS,
-        FREED_FROM_SQUARES, THE_MOST_FARED_POINTS, FULL_SQUARES,
-        TABLE_OF_POWERS};
-
-#define COORDINATES_NUMBER 2
-#define X 0
-#define Y 1
+enum {TRANSPONATE_MATRIX = 1, Nth_SIMPLE_NUMBER = 2, SUM_OF_ALL_DIVIDERS = 3,
+    SYMBOL_FILTER = 4, WORDS_REVERSING = 5, SORTING_OF_STUDENTS = 6,
+        FREED_FROM_SQUARES = 7, THE_MOST_FARTHEST_POINTS = 8, FULL_SQUARES = 9,
+        TABLE_OF_POWERS = 10};
 
 #define MAX_STRING 10000
 #define MAX_STUDENT_NAME 30
@@ -20,6 +16,20 @@ enum {TRANSPONATE_MATRIX = 1, Nth_SIMPLE_NUMBER, SUM_OF_ALL_DIVIDERS,
 #define BEGIN 'A'
 #define END 'Z'
 
+
+struct Student
+{
+    int mark;
+    char* name;
+};
+
+struct Point
+{
+    double x;
+    double y;
+};
+
+
 int transponate_matrix();
 int nth_simple_number();
 int sum_of_all_dividers();
@@ -27,8 +37,7 @@ int symbol_filter();
 int words_reversing();
 int sorting_of_students();
 int freed_from_squares();
-int the_most_fared_points();
+int the_most_farthest_points();
 int full_squares();
 int table_of_powers();
 int is_square(long number);
-double distance_between_two_points(double* first_point, double* second_point);
