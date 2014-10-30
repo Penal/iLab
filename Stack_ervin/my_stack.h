@@ -51,6 +51,5 @@ void my_stack_dump( my_stack * This);
 int my_stack_double_ok(my_stack_double* This);
 int my_stack_double_perror(char* bgn_of_msg);
 
-int My_stack_double_errno = 0;
 enum {ok = 0, stack_overflow = 1, stack_underflow=2, null_stack_pointer=3, null_data_pointer=4};
 #endif  //MY_STACK_H
