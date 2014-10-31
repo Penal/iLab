@@ -17,6 +17,7 @@ int               my_stack_double_delete( my_stack_double * This);
 
 size_t my_stack_double_size( my_stack_double * This);
 int my_stack_double_empty( my_stack_double * This);
+int my_stack_double_full( my_stack_double* This);
 
 int my_stack_double_push( my_stack_double * This, double data);
 double my_stack_double_pop( my_stack_double * This);

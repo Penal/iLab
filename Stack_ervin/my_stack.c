@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include "stdint.h"
 #include "my_stack.h"
 #define $(param) my_stack_double_ok(param)
 
@@ -9,22 +10,23 @@ int My_stack_double_errno = 0;
 my_stack_double* my_stack_double_new( size_t size)
 {
     my_stack_double* rtr_p = (my_stack_double *) calloc (1, sizeof(*rtr_p));
-    rtr_p->data = (double*) calloc (size, sizeof(*(rtr_p->data)));
+    rtr_p->stack_pointer = (double*) calloc (size, sizeof(*(rtr_p->data)));
+    assert(rtr_p->stack_pointer);
     rtr_p->size = size;
-    rtr_p->stack_pointer = rtr_p->data;
+    rtr_p->data = rtr_p->stack_pointer;
     return rtr_p;
 }
 
 int my_stack_double_delete( my_stack_double * This)
 {
-    free (This->data);
+    free (This->stack_pointer);
     free (This);
     return 0;
 }
 
 size_t my_stack_double_size( my_stack_double * This)
 {
-    size_t Size = (This->data-This->stack_pointer);
+    size_t Size = (This->data - This->stack_pointer);
     return Size;
 }
 
@@ -49,14 +51,14 @@ int my_stack_double_ok(my_stack_double* This)
         My_stack_double_errno = null_data_pointer;
         return 0;
     }
+    else if (my_stack_double_size(This) > SIZE_MAX/2) //not <0 because size_t is unsigned
+    {
+        My_stack_double_errno = stack_underflow;
+        return 0;
+    }
     else if (my_stack_double_size(This) > This->size)
     {
         My_stack_double_errno = stack_overflow;
-        return 0;
-    }
-    else if (my_stack_double_size(This) < 0)
-    {
-        My_stack_double_errno = stack_underflow;
         return 0;
     }
     return 1;
@@ -69,6 +71,16 @@ int my_stack_double_push( my_stack_double * This, double data)
         my_stack_double_dump(This);
         printf("INVALID STACK IN THE BEGINNING OF STACK_PUSH\n");
         assert(NULL);
+    }
+    if(my_stack_double_full(This))
+    {
+        double* old_stack_pointer = This->stack_pointer;
+        This->size *= 2;
+        This->stack_pointer = (double*)realloc(This->stack_pointer, This->size
+                *sizeof(*This->stack_pointer));
+        assert(This->stack_pointer);
+        long delta = This->stack_pointer - old_stack_pointer;
+        This->data += delta;
     }
     *(This->data) = data;
     This->data++;
@@ -91,6 +103,16 @@ double my_stack_double_pop( my_stack_double * This)
     }
     double rtr_val = *(This->data-1);
     This->data--;
+    if (my_stack_double_size(This) < This->size/2)
+    {
+        double* old_stack_pointer = This->stack_pointer;
+        This->size /= 2;
+        This->stack_pointer = (double*)realloc(This->stack_pointer, This->size
+                *sizeof(*This->stack_pointer));
+        assert(This->stack_pointer);
+        long delta = This->stack_pointer - old_stack_pointer;
+        This->data += delta;
+    }
     if (!$(This))
     {
         my_stack_double_dump(This);
@@ -119,8 +141,8 @@ void my_stack_double_dump( my_stack_double * This)
     {
         for (long i = 0; i < This->size;i++)
         {
-            printf("\tdata[%li]=%30.10lg|",i,This->stack_pointer[i]);
-            if (i >= my_stack_double_size(This))
+            printf("\tdata[%07li]=%30.10lg|",i,This->stack_pointer[i]);
+            if (i >= my_stack_double_size(This) || My_stack_double_errno == stack_underflow)
             {
                 printf("(GBG)");
             }
@@ -185,3 +207,13 @@ double my_stack_double_swap( my_stack_double * This)
     }
     return 0;
 }
+
+int my_stack_double_full( my_stack_double* This)
+{
+    if(my_stack_double_size(This) >= This->size)
+    {
+        return TRUE;
+    }
+    return FALSE;
+}
+
