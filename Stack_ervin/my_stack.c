@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <assert.h>
+#include <string.h>
 #include "stdint.h"
 #include "my_stack.h"
 #define $(param) my_stack_double_ok(param)
@@ -154,6 +155,7 @@ void my_stack_double_dump( my_stack_double * This)
 
 int my_stack_double_perror(char* bgn_of_msg)
 {
+    assert(bgn_of_msg);
     char* error_msg = ""; //I don't know why, but using allocation and free I get error messages
     assert (error_msg);
     switch (My_stack_double_errno)
@@ -163,7 +165,7 @@ int my_stack_double_perror(char* bgn_of_msg)
         case stack_underflow:   error_msg = "Stack underflow"; break;
         case null_stack_pointer:    error_msg = "Null stack pointer"; break;
         case null_data_pointer: error_msg = "Null data pointer"; break;
-        default: break;
+        default: sprintf(error_msg, "Unknown error #%i\n", (int)My_stack_double_errno); break;
     }
     printf("%s:%s\n", bgn_of_msg, error_msg);
     error_msg = NULL;
