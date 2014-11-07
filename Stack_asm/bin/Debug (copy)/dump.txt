@@ -1,0 +1,10 @@
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=2|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|
+array_of_marks[i]=-1|

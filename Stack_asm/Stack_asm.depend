@@ -1,0 +1,37 @@
+# depslib dependency file v1.0
+1414787829 source:/home/roza/CodeBlocks/Stack_asm/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<string.h>
+	"../Debug/main.c"
+	"Stack_asm.h"
+
+1414695450 /home/roza/CodeBlocks/Debug/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Debug.h"
+
+1414757506 /home/roza/CodeBlocks/Debug/Debug.h
+	<string.h>
+
+1414750049 /home/roza/CodeBlocks/Stack_asm/Stack_asm.h
+
+1415396381 source:/home/roza/Programming/CodeBlocks/Stack_asm/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<string.h>
+	"Stack_asm.h"
+	"../Debug/main.c"
+
+1414695450 /home/roza/Programming/CodeBlocks/Debug/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Debug.h"
+
+1414757506 /home/roza/Programming/CodeBlocks/Debug/Debug.h
+	<string.h>
+
+1415394595 /home/roza/Programming/CodeBlocks/Stack_asm/Stack_asm.h
+

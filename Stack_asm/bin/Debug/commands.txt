@@ -1,0 +1,7 @@
+PUSH 5
+:3
+SIN
+COS
+JMP :3
+END
+

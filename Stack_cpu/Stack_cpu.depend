@@ -1,0 +1,54 @@
+# depslib dependency file v1.0
+1414763843 source:/home/roza/CodeBlocks/Stack_cpu/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	"../Stack/main.c"
+	"../Debug/main.c"
+	"Stack_cpu.h"
+
+1414707638 /home/roza/CodeBlocks/Stack/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"stack.h"
+
+1414695450 /home/roza/CodeBlocks/Stack/stack.h
+
+1414762631 /home/roza/CodeBlocks/Stack_cpu/Stack_cpu.h
+
+1414695450 /home/roza/CodeBlocks/Debug/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Debug.h"
+
+1414757506 /home/roza/CodeBlocks/Debug/Debug.h
+	<string.h>
+
+1415397865 source:/home/roza/Programming/CodeBlocks/Stack_cpu/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<math.h>
+	"../Stack/main.c"
+	"Stack_cpu.h"
+
+1415391333 /home/roza/Programming/CodeBlocks/Stack/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"stack.h"
+
+1414695450 /home/roza/Programming/CodeBlocks/Stack/stack.h
+
+1414695450 /home/roza/Programming/CodeBlocks/Debug/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Debug.h"
+
+1414757506 /home/roza/Programming/CodeBlocks/Debug/Debug.h
+	<string.h>
+
+1415398018 /home/roza/Programming/CodeBlocks/Stack_cpu/Stack_cpu.h
+

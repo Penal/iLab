@@ -1,0 +1,9 @@
+# depslib dependency file v1.0
+1415390976 source:/home/roza/Programming/CodeBlocks/Stack/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	"stack.h"
+
+1414695450 /home/roza/Programming/CodeBlocks/Stack/stack.h
+

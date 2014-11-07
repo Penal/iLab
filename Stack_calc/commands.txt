@@ -1,0 +1,12 @@
+push 30
+sin
+push 30
+sin
+mul
+push 30
+cos
+push 30
+cos
+mul
+add
+end
