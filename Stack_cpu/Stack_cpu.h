@@ -15,8 +15,8 @@ typedef struct
 const int WRONG_NUM = -13;
 const int ONE_ELEMENT = 1;
 const int MAX_NUM_OF_CMDS = 30000;
-const int MAX_SIZE_OF_DATA = 400;
-const int MAX_CALL_STACK_SIZE = 400;
+const int MAX_SIZE_OF_DATA = 20;
+const int MAX_CALL_STACK_SIZE = 20;
 const int SIZE_OF_HEADER = 4;
 const double WRONG_COMMAND = -1;
 const double IGNORE_COMMAND = -2;

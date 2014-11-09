@@ -4,6 +4,7 @@ const int MAX_STRING_LENGTH = 20;
 const int MAX_STACK_ASM_STACK_BUFFER_SIZE = 100000;
 const double WRONG_COMMAND = -1;
 const double IGNORE_COMMAND = -2;
+const double END_OF_BUFFER = -3;
 const int WRONG_NUM = -13;
 const int ONE_ELEMENT = 1;
 const int SIZE_OF_HEADER = 4;

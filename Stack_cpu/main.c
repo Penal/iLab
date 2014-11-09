@@ -25,6 +25,7 @@ int main()
     FILE* cmds_file = fopen("commands_num.txt", "rb");
     Stack_cpu_read_cmds_from_file(CPU, cmds_file);
     Stack_cpu_execute_cmds(CPU);
+    Stack_cpu_dump(CPU);
     Stack_cpu_dtor(CPU);
     free(CPU);
     CPU = NULL;
@@ -107,6 +108,7 @@ int Stack_cpu_dump(Stack_cpu* cpu_p)
 int Stack_cpu_dtor(Stack_cpu* cpu_p)
 {
     stack_dtor(cpu_p->call_stack);
+    free(cpu_p->call_stack);
     cpu_p->call_stack = NULL;
     free(cpu_p->commands_to_execute);
     cpu_p->commands_to_execute = NULL;
@@ -173,11 +175,11 @@ int Stack_cpu_execute_cmds(Stack_cpu* cpu_p)
                 cmd_code == CALL_CODE)
             {
                 i++;
-                i = cpu_p->commands_to_execute[i] - 1; //-1 because it'll be i++ next line
                 if (cmd_code == CALL_CODE)
                 {
                     stack_push(cpu_p->call_stack, i+1);
                 }
+                i = cpu_p->commands_to_execute[i] - 1; //-1 because it'll be i++ next line
                 continue;
             }
             else if (cmd_code == JA_CODE ||
@@ -203,7 +205,6 @@ int Stack_cpu_execute_cmds(Stack_cpu* cpu_p)
                 }
                 stack_push(cpu_p->cpu_data, lower);
                 stack_push(cpu_p->cpu_data, upper);
-                Stack_cpu_dump(cpu_p);
                 continue;
             }
             else if (cmd_code == ADD_CODE ||
@@ -250,7 +251,7 @@ int Stack_cpu_execute_cmds(Stack_cpu* cpu_p)
             }
             else if(cmd_code == POP_CODE)
             {
-                printf("%lg\n", stack_pop(cpu_p->cpu_data));
+                stack_pop(cpu_p->cpu_data);
             }
             else if(cmd_code >= PUSHX_CODE && cmd_code <= PUSHD_CODE)
             {

@@ -136,6 +136,8 @@ int write_commands_to_buffer(double* commands_buffer, FILE* commands_file,
             commands_buffer++;
         }
     }
+    *commands_buffer = END_OF_BUFFER;
+    commands_buffer++;
     free(cmd);
     cmd = NULL;
     free(Register);
@@ -162,7 +164,7 @@ int write_commands_to_file(double* commands_buffer, FILE* commands_file)
     free(header_buffer);
     header_buffer = NULL;
     int cur_is_arg = TRUE;
-    for (;*commands_buffer != END_CODE || !cur_is_arg;commands_buffer++)
+    for (;*commands_buffer != END_OF_BUFFER || !cur_is_arg;commands_buffer++)
     {
         if (*commands_buffer != IGNORE_COMMAND)
         {
@@ -184,8 +186,6 @@ int write_commands_to_file(double* commands_buffer, FILE* commands_file)
         }
         cur_is_arg = TRUE;
     }
-    //we must not forget END in the end
-    fwrite(commands_buffer, sizeof(*commands_buffer), ONE_ELEMENT, commands_file);
     return 0;
 }
 
