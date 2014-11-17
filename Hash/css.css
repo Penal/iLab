@@ -1,0 +1,21 @@
+.list_declaration
+{
+    border: outset black 2px;
+    background: yellow;
+}
+.attention
+{
+    color: red;
+    font-size: 125%;
+}
+.msg
+{
+    border: outset black 4px;
+    background: red;
+}
+.hash_declaration
+{
+    border: outset black 6px;
+    background: green;
+    padding: 0 10 0 10;
+}
