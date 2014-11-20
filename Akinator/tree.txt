@@ -1,0 +1,1 @@
+("Woman", ("Doves my", ("Znamenskaya", 0, 0), ("Ivanova", 0, 0)), ("Does labs", ("Zhotikov", 0, 0), ("Teach ungem", ("Tereshin", 0, 0), ("Dedynsky", 0, 0))))

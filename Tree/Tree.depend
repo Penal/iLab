@@ -1,0 +1,10 @@
+# depslib dependency file v1.0
+1416073698 source:/home/roza/Programming/CodeBlocks/Tree/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<string.h>
+	"tree.h"
+
+1416150600 /home/roza/Programming/CodeBlocks/Tree/tree.h
+

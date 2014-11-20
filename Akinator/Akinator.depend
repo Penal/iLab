@@ -1,0 +1,26 @@
+# depslib dependency file v1.0
+1416238987 source:/home/roza/Programming/CodeBlocks/Akinator/main.c
+	<stdio.h>
+	<stdlib.h>
+	"../Tree/main.c"
+	"akinator.h"
+
+1416241544 /home/roza/Programming/CodeBlocks/Tree/main.c
+	<stdio.h>
+	<stdlib.h>
+	<assert.h>
+	<string.h>
+	"tree.h"
+
+1416241234 /home/roza/Programming/CodeBlocks/Tree/tree.h
+
+1416162097 /home/roza/Programming/CodeBlocks/Akinator/akinator.h
+
+1415401062 /home/roza/Programming/CodeBlocks/Debug/main.c
+	<stdio.h>
+	<stdlib.h>
+	"Debug.h"
+
+1416150734 /home/roza/Programming/CodeBlocks/Debug/Debug.h
+	<string.h>
+

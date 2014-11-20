@@ -1,0 +1,4 @@
+akinator_dtbase->data|len=5|=Woman|
+akinator_dtbase->data|len=8|=Doves my|
+akinator_dtbase->data|len=5|=Woman|
+akinator_dtbase->data|len=9|=Does labs|
