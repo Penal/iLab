@@ -227,17 +227,15 @@ int Node_fprint(Node_t* tree_p, FILE* file, FILE* dump_file)
     VALID_NODE(tree_p, "Invalid node in the beginning of Node_fprint", dump_file);
     assert(file);
 
-    fprintf(file,"(\"%s\", ", tree_p->data);
+    fprintf(file,"(\"%s\"", tree_p->data);
     if (tree_p->lft)
     {
         Node_fprint(tree_p->lft, file, dump_file);
     }
     else
     {
-        fprintf(file, "0");
+        fprintf(file, "(0)");
     }
-
-    fprintf(file, ", ");
 
     if (tree_p->rgt)
     {
@@ -245,7 +243,7 @@ int Node_fprint(Node_t* tree_p, FILE* file, FILE* dump_file)
     }
     else
     {
-        fprintf(file, "0");
+        fprintf(file, "(0)");
     }
     fprintf(file, ")");
 
@@ -267,25 +265,21 @@ Node_t* Node_fread(FILE* file, FILE* dump_file)
     assert(dump_file);
 
     int temp = WRONG_NUM;
-    if (fscanf(file, "%i", &temp) > 0 && temp == 0)
+    if (fscanf(file, "(%i)", &temp) > 0 && temp == 0)
     {
         return NULL;
     }
 
-    fscanf(file, "(\"");
+    fscanf(file, "(");
 
     unsigned char* buffer = (unsigned char*)calloc(MAX_STRLEN, sizeof(*buffer));
     assert(buffer);
-    fscanf(file, "%[^\"]\"", buffer);
+    fscanf(file, "\"%[^\"]\"", buffer);
 
     Node_t* return_node = Node_ctor(buffer, NULL, NULL, dump_file);
 
-    fscanf(file, ", ");
-
     Node_t* left_node = Node_fread(file, dump_file);
     Node_insert(return_node, left_node, LEFT, dump_file);
-
-    fscanf(file, ", ");
 
     Node_t* right_node = Node_fread(file, dump_file);
     Node_insert(return_node, right_node, RIGHT, dump_file);
