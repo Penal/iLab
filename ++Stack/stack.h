@@ -1,4 +1,6 @@
-﻿#include <cassert>
+﻿#include <iostream>
+#include <cstring>
+#include <cassert>
 
 const int WRONG_NUM = 0;
 const int STD_STACK_SIZE = 10;
