@@ -132,10 +132,10 @@ template <class T> int Stack<T>::push(const double value)
 
 template <class T> T Stack<T>::pop()
 {
-	if(this->ok()) this->dump();
+	if(this->not_ok()) this->dump();
 	int result = data_[count_-1];
 	count_--;
-	if(this->ok()) this->dump();
+	if(this->not_ok()) this->dump();
 	return result;
 }
 
