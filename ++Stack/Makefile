@@ -1,2 +1,2 @@
 all:
-	gcc -Werror -std=c++11 main.cpp -o Stack -lstdc++
+	gcc -std=c++11 main.cpp -o Stack -lstdc++
