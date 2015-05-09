@@ -1,2 +1,8 @@
+CC=g++
+CFLAGS=-Werror -std=c++11
+SRC=main.cpp
+EXE=Stack
+LFLAGS=
+
 all:
-	gcc -std=c++11 main.cpp -o Stack -lstdc++
+	$(CC) $(CFLAGS) $(SRC) -o $(EXE) $(LFLAGS)

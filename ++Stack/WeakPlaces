@@ -1,0 +1,10 @@
+Data* is not in init list ? How to move "try" in init list
+Constructor of Stack_crushed ? How to move state_code_ in init list
+-----------------------------------------
+Fix standart exceptions +? Are there standart exceptions except std::bad_alloc (memset and delete [] don't have 'em)
+Make implementation and virtual funcitons +? What except what()
+Too few returns +? Why do we need 'em at all
+? How to imitate bad allocation
+Try to fix, if you can't, throw again + 
+Using namespace std+
+No noexcept, inline, const+
