@@ -45,10 +45,10 @@ public:
 template <class T>
 class Stack {
 public:
-	Stack(int size, ostream& ostr);
+	Stack(long size, ostream& ostr);
 	~Stack();
 	int not_ok();
-	int dump(ostream& ostr) const noexcept;
+	int dump(ostream& ostr) const;
 	int push(const T value);
 	T pop();
 	template <class R> friend ostream& operator<<(ostream& ostr, const Stack<R>& stack) noexcept;
@@ -61,7 +61,7 @@ private:
     ostream& stack_stream_;
 };
 
-template <class T> Stack<T>::Stack(int size = STD_STACK_SIZE, ostream& ostr = cerr):
+template <class T> Stack<T>::Stack(long size = STD_STACK_SIZE, ostream& ostr = cerr):
 	data_(nullptr), count_(0), size_(size), stack_errno_(STACK_IS_OK), stack_stream_(ostr)
 {
 	try
@@ -72,12 +72,9 @@ template <class T> Stack<T>::Stack(int size = STD_STACK_SIZE, ostream& ostr = ce
 	}
     catch (bad_alloc)
     {
-        throw Stack_exception(STACK_DATA_PTR_NULL);
+        this->react(Stack_exception(STACK_DATA_PTR_NULL));
+        throw Stack_crushed(); 
     }
-	catch (Stack_exception exception)
-	{
-		this->react(exception);
-	}
 }
 
 template <class T> Stack<T>::~Stack()
@@ -113,7 +110,7 @@ template <class T> int Stack<T>::not_ok()
 	return stack_errno_;
 }
 
-template <class T> int Stack<T>::dump(ostream& ostr) const noexcept
+template <class T> int Stack<T>::dump(ostream& ostr) const 
 {
 	ostr << "Stack [" << this << "]" << endl;
 	ostr << "--->Count = " << count_ << ", Size = " << size_ << endl; 

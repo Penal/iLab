@@ -1,13 +1,14 @@
 #include "stack.h"
+#include <climits>
 
 int main (void)
 {
     try
     {
-        Stack<int> test_stack;
+        Stack<int> test_stack(LONG_MAX);
         for (int i = 0; i < 11; i++)
         {
-	        test_stack.push(i+1);
+	        test_stack.push(i);
         }
 	    for (int i = 0; i < 12; i++)
         {
