@@ -1,6 +1,7 @@
 ﻿#include <iostream>
 #include <cstring>
 #include <cassert>
+#include <typeinfo>
 
 using std::ostream;
 using std::cerr;
@@ -38,7 +39,7 @@ protected:
 class Stack_crushed : public Stack_exception
 {
 public:
-    Stack_crushed() {this->state_code_ = STACK_IMPOSSIBLE_TO_FIX;};
+    Stack_crushed() : Stack_exception(STACK_IMPOSSIBLE_TO_FIX) {};
 };
 
 
@@ -53,36 +54,46 @@ public:
 	T pop();
 	template <class R> friend ostream& operator<<(ostream& ostr, const Stack<R>& stack) noexcept;
 	int react(Stack_exception exception);
+    virtual inline const char* name() const;
 private:
-	T* data_;
+    ostream& stack_stream_;
 	int count_;
 	int size_;
 	int stack_errno_;
-    ostream& stack_stream_;
+	T* data_;
 };
 
-template <class T> Stack<T>::Stack(long size = STD_STACK_SIZE, ostream& ostr = cerr):
-	data_(nullptr), count_(0), size_(size), stack_errno_(STACK_IS_OK), stack_stream_(ostr)
+template <class T> Stack<T>::Stack(long size = STD_STACK_SIZE, ostream& ostr = cerr)
+try : data_(new T[size]), count_(0), size_(size), stack_errno_(STACK_IS_OK), stack_stream_(ostr)
 {
 	try
 	{
-        data_ = new T[size];
 		memset(data_, 0, size_*sizeof(T));
 		this->not_ok();
 	}
-    catch (bad_alloc)
+    catch (Stack_exception exc)
     {
-        this->react(Stack_exception(STACK_DATA_PTR_NULL));
-        throw Stack_crushed(); 
+        this->react(exc);
     }
+}
+catch (bad_alloc)
+{
+    this->react(Stack_exception(STACK_DATA_PTR_NULL));
 }
 
 template <class T> Stack<T>::~Stack()
 {
-	delete [] data_;
-	data_ = NULL;
-	count_ = WRONG_NUM;
-	size_ = WRONG_NUM;
+    try
+    {
+    	delete [] data_;
+    	data_ = NULL;
+    	count_ = WRONG_NUM;
+    	size_ = WRONG_NUM;
+    }
+    catch (...)
+    {
+        this->stack_stream_ << "There was some exception of delete[]. It\'s really bad\n";
+    }
 } 
 
 template <class T> int Stack<T>::not_ok() 
@@ -180,6 +191,7 @@ const char* Stack_exception::what() const noexcept
 		case STACK_DATA_PTR_NULL: return "Stack data null pointer"; 		            break;
         case STACK_IMPOSSIBLE_TO_FIX: return "It\'s impossible to fix this stack!!!";   break;
 	}
+    return "Some unknown state of Stack";
 }
 
 
@@ -243,4 +255,10 @@ template <class T> int Stack<T>::react(Stack_exception exc)
 inline int Stack_exception::get_state_code() const noexcept
 {
 	return this->state_code_;
+}
+
+template <class T>
+inline const char* Stack<T>::name() const
+{
+    return typeid(T).name();
 }
